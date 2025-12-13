@@ -586,68 +586,68 @@
                 ]
             },
             ru: {
-                creationTitle: "Life Simulator",
-                nameLabel: "Enter your character's name:",
-                languageLabel: "Select language:",
-                startButton: "Start Game",
-                loadButton: "Load Game",
-                loadTitle: "Load Game",
-                backToMenu: "Back to Menu",
-                saveGame: "Save Game",
-                mainMenu: "Main Menu",
-                newGame: "New Game",
-                gameTitle: "Life Simulator",
-                health: "Health",
-                energy: "Energy",
-                happiness: "Happiness",
-                money: "Money",
-                logTitle: "Game Log",
-                welcomeMessage: "Welcome to the life simulator! Make choices to shape your character's life.",
-                day: "Day",
-                saveSuccess: "Game saved successfully!",
-                loadSuccess: "Game loaded successfully!",
-                saveDeleted: "Save deleted!",
-                confirmNewGame: "Start new game? Current progress will be lost!",
-                confirmDelete: "Delete this save?",
-                emptySlot: "Empty Slot",
-                player: "Player",
-                days: "days",
+                creationTitle: "Симулятор Жизни",
+                nameLabel: "Введите имя вашего персонажа:",
+                languageLabel: "Выберите язык:",
+                startButton: "Начать Игру",
+                loadButton: "Загрузить Игру",
+                loadTitle: "Загрузить Игру",
+                backToMenu: "Вернуться в Меню",
+                saveGame: "Сохранить Игру",
+                mainMenu: "Главное Меню",
+                newGame: "Новая Игра",
+                gameTitle: "Симулятор Жизни",
+                health: "Здоровье",
+                energy: "Энергия",
+                happiness: "Счастье",
+                money: "Деньги",
+                logTitle: "Журнал Игры",
+                welcomeMessage: "Добро пожаловать в симулятор жизни! Делайте выбор, чтобы формировать жизнь вашего персонажа.",
+                day: "День",
+                saveSuccess: "Игра успешно сохранена!",
+                loadSuccess: "Игра успешно загружена!",
+                saveDeleted: "Сохранение удалено!",
+                confirmNewGame: "Начать новую игру? Текущий прогресс будет потерян!",
+                confirmDelete: "Удалить это сохранение?",
+                emptySlot: "Пустой слот",
+                player: "Игрок",
+                days: "дней",
                 actions: [
                     {
-                        title: "Work",
-                        description: "Go to work and earn money",
+                        title: "Работа",
+                        description: "Пойти на работу и заработать денег",
                         icon: "💼",
-                        effects: "+20 Money, -15 Energy, -5 Happiness"
+                        effects: "+20 Денег, -15 Энергии, -5 Счастья"
                     },
                     {
-                        title: "Exercise",
-                        description: "Work out to improve health",
+                        title: "Тренировка",
+                        description: "Потренироваться для улучшения здоровья",
                         icon: "🏋️",
-                        effects: "+15 Health, -20 Energy, +5 Happiness"
+                        effects: "+15 Здоровья, -20 Энергии, +5 Счастья"
                     },
                     {
-                        title: "Rest",
-                        description: "Relax and recover energy",
+                        title: "Отдых",
+                        description: "Расслабиться и восстановить энергию",
                         icon: "😴",
-                        effects: "+30 Energy, +10 Happiness, -5 Money"
+                        effects: "+30 Энергии, +10 Счастья, -5 Денег"
                     },
                     {
-                        title: "Socialize",
-                        description: "Spend time with friends",
+                        title: "Общение",
+                        description: "Провести время с друзьями",
                         icon: "👥",
-                        effects: "+20 Happiness, -10 Energy, -10 Money"
+                        effects: "+20 Счастья, -10 Энергии, -10 Денег"
                     },
                     {
-                        title: "Eat",
-                        description: "Have a healthy meal",
+                        title: "Поесть",
+                        description: "Принять здоровую пищу",
                         icon: "🍎",
-                        effects: "+15 Health, +10 Energy, -5 Money"
+                        effects: "+15 Здоровья, +10 Энергии, -5 Денег"
                     },
                     {
-                        title: "Hobby",
-                        description: "Do something you enjoy",
+                        title: "Хобби",
+                        description: "Заняться любимым делом",
                         icon: "🎮",
-                        effects: "+15 Happiness, -10 Energy"
+                        effects: "+15 Счастья, -10 Энергии"
                     }
                 ]
             }
@@ -742,7 +742,7 @@
             // Generate random name for example
             const sampleNames = currentLang === 'en' 
                 ? ['Alex', 'Sam', 'Jordan', 'Taylor', 'Morgan'] 
-                : ['Alexey', 'Maria', 'Ivan', 'Anna', 'Dmitry'];
+                : ['Алексей', 'Мария', 'Иван', 'Анна', 'Дмитрий'];
             const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
             characterNameInput.value = randomName;
             
@@ -756,7 +756,7 @@
             if (saves.auto) {
                 if (confirm(currentLang === 'en' 
                     ? "Found an auto-save. Load it?" 
-                    : "Found an auto-save. Load it?")) {
+                    : "Найдено автосохранение. Загрузить его?")) {
                     loadGame('auto');
                 }
             }
@@ -773,7 +773,7 @@
             languageLabel.textContent = t.languageLabel;
             startButton.textContent = t.startButton;
             loadButton.textContent = t.loadButton;
-            characterNameInput.placeholder = lang === 'en' ? "Your name" : "Your name";
+            characterNameInput.placeholder = lang === 'en' ? "Your name" : "Ваше имя";
             
             // Update load screen texts
             loadTitle.textContent = t.loadTitle;
@@ -808,7 +808,7 @@
             // Get character name
             playerName = characterNameInput.value.trim();
             if (!playerName) {
-                playerName = currentLang === 'en' ? "Alex" : "Alexey";
+                playerName = currentLang === 'en' ? "Alex" : "Алексей";
             }
             
             // Reset stats
@@ -959,12 +959,12 @@
         function saveGame() {
             const slot = prompt(currentLang === 'en' 
                 ? "Enter save slot number (1-5):" 
-                : "Enter save slot number (1-5):", "1");
+                : "Введите номер слота сохранения (1-5):", "1");
             
             if (!slot || !/^[1-5]$/.test(slot)) {
                 alert(currentLang === 'en' 
                     ? "Please enter a number from 1 to 5." 
-                    : "Please enter a number from 1 to 5.");
+                    : "Пожалуйста, введите число от 1 до 5.");
                 return;
             }
             
@@ -1010,7 +1010,7 @@
             if (!saveData) {
                 alert(currentLang === 'en' 
                     ? "No save found in this slot." 
-                    : "No save found in this slot.");
+                    : "В этом слоте нет сохранения.");
                 return;
             }
             
@@ -1111,7 +1111,7 @@
                     stats.happiness -= 5;
                     addLogMessage(currentLang === 'en' 
                         ? `You worked and earned money.` 
-                        : `You worked and earned money.`);
+                        : `Вы поработали и заработали денег.`);
                     break;
                 case 1: // Exercise
                     stats.health += 15;
@@ -1119,7 +1119,7 @@
                     stats.happiness += 5;
                     addLogMessage(currentLang === 'en' 
                         ? `You exercised and improved your health.` 
-                        : `You exercised and improved your health.`);
+                        : `Вы потренировались и улучшили здоровье.`);
                     break;
                 case 2: // Rest
                     stats.energy += 30;
@@ -1127,7 +1127,7 @@
                     stats.money -= 5;
                     addLogMessage(currentLang === 'en' 
                         ? `You rested and recovered energy.` 
-                        : `You rested and recovered energy.`);
+                        : `Вы отдохнули и восстановили энергию.`);
                     break;
                 case 3: // Socialize
                     stats.happiness += 20;
@@ -1135,7 +1135,7 @@
                     stats.money -= 10;
                     addLogMessage(currentLang === 'en' 
                         ? `You socialized with friends.` 
-                        : `You socialized with friends.`);
+                        : `Вы пообщались с друзьями.`);
                     break;
                 case 4: // Eat
                     stats.health += 15;
@@ -1143,14 +1143,14 @@
                     stats.money -= 5;
                     addLogMessage(currentLang === 'en' 
                         ? `You ate a healthy meal.` 
-                        : `You ate a healthy meal.`);
+                        : `Вы приняли здоровую пищу.`);
                     break;
                 case 5: // Hobby
                     stats.happiness += 15;
                     stats.energy -= 10;
                     addLogMessage(currentLang === 'en' 
                         ? `You enjoyed your hobby.` 
-                        : `You enjoyed your hobby.`);
+                        : `Вы занялись любимым делом.`);
                     break;
             }
             
@@ -1167,7 +1167,7 @@
                 stats.happiness -= 3;
                 addLogMessage(currentLang === 'en' 
                     ? `A new day begins.` 
-                    : `A new day begins.`);
+                    : `Начинается новый день.`);
             }
             
             // Update stats display
@@ -1238,14 +1238,14 @@
             // If any stat drops to 0
             if (stats.health <= 0 || stats.energy <= 0 || stats.happiness <= 0 || stats.money <= 0) {
                 let reason = '';
-                if (stats.health <= 0) reason = currentLang === 'en' ? 'health' : 'health';
-                else if (stats.energy <= 0) reason = currentLang === 'en' ? 'energy' : 'energy';
-                else if (stats.happiness <= 0) reason = currentLang === 'en' ? 'happiness' : 'happiness';
-                else if (stats.money <= 0) reason = currentLang === 'en' ? 'money' : 'money';
+                if (stats.health <= 0) reason = currentLang === 'en' ? 'health' : 'здоровье';
+                else if (stats.energy <= 0) reason = currentLang === 'en' ? 'energy' : 'энергия';
+                else if (stats.happiness <= 0) reason = currentLang === 'en' ? 'happiness' : 'счастье';
+                else if (stats.money <= 0) reason = currentLang === 'en' ? 'money' : 'деньги';
                 
                 const message = currentLang === 'en' 
                     ? `Game over! Your ${reason} dropped to zero. You survived ${day} days.` 
-                    : `Game over! Your ${reason} dropped to zero. You survived ${day} days.`;
+                    : `Игра окончена! Ваше ${reason} упало до нуля. Вы прожили ${day} дней.`;
                 
                 addLogMessage(message);
                 
@@ -1253,7 +1253,7 @@
                 setTimeout(() => {
                     if (confirm(currentLang === 'en' 
                         ? `Game over! You survived ${day} days. Start again?` 
-                        : `Game over! You survived ${day} days. Start again?`)) {
+                        : `Игра окончена! Вы прожили ${day} дней. Начать заново?`)) {
                         showScreen('creation');
                     }
                 }, 500);
@@ -1263,12 +1263,12 @@
             if (day >= 30) {
                 addLogMessage(currentLang === 'en' 
                     ? `Congratulations! You successfully lived 30 days and completed the simulation!` 
-                    : `Congratulations! You successfully lived 30 days and completed the simulation!`);
+                    : `Поздравляем! Вы успешно прожили 30 дней и завершили симуляцию!`);
                 
                 setTimeout(() => {
                     if (confirm(currentLang === 'en' 
                         ? `Congratulations! You completed the simulation. Start again?` 
-                        : `Congratulations! You completed the simulation. Start again?`)) {
+                        : `Поздравляем! Вы завершили симуляцию. Начать заново?`)) {
                         showScreen('creation');
                     }
                 }, 500);
