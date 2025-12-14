@@ -378,6 +378,10 @@
             font-style: italic;
             text-align: right;
             padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
         }
         
         .version-indicator span {
@@ -385,6 +389,91 @@
             padding: 3px 8px;
             border-radius: 4px;
             border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .snapshot-link {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .snapshot-link:hover {
+            color: rgba(255, 255, 255, 0.7);
+            border-color: rgba(76, 201, 240, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Event overlay */
+        .event-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .event-container {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 3px solid #4361ee;
+        }
+        
+        .event-title {
+            color: #4cc9f0;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .event-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #f8f9fa;
+            text-align: center;
+        }
+        
+        .event-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .event-choice {
+            background: rgba(67, 97, 238, 0.1);
+            border: 2px solid #4361ee;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .event-choice:hover {
+            background: rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .event-choice-effects {
+            font-size: 0.9rem;
+            color: #ffd6ff;
+            margin-top: 8px;
+            font-style: italic;
         }
         
         @media (max-width: 768px) {
@@ -417,6 +506,15 @@
                 text-align: center;
                 margin-top: 20px;
                 padding: 10px;
+                align-items: center;
+            }
+            
+            .event-choices {
+                gap: 10px;
+            }
+            
+            .event-choice {
+                padding: 12px;
             }
         }
     </style>
@@ -424,6 +522,17 @@
 <body>
     <div class="save-indicator" id="save-indicator">
         <span id="save-message">Game saved successfully!</span>
+    </div>
+    
+    <!-- Event overlay -->
+    <div class="event-overlay" id="event-overlay">
+        <div class="event-container">
+            <h3 class="event-title" id="event-title">Unexpected Event!</h3>
+            <div class="event-description" id="event-description"></div>
+            <div class="event-choices" id="event-choices">
+                <!-- Event choices will be added here -->
+            </div>
+        </div>
     </div>
     
     <div class="container">
@@ -450,6 +559,7 @@
             </div>
             <div class="version-indicator">
                 <span>alpha-version 1.0</span>
+                <a href="https://greenyeasnapshot.github.io" target="_blank" class="snapshot-link" id="snapshot-link">Snapshot: greenyeasnapshot.github.io</a>
             </div>
         </div>
         
@@ -463,6 +573,7 @@
                 <button id="back-to-menu-btn">Back to Menu</button>
                 <div class="version-indicator">
                     <span>alpha-version 1.0</span>
+                    <a href="https://greenyeasnapshot.github.io" target="_blank" class="snapshot-link" id="snapshot-link-load">Snapshot: greenyeasnapshot.github.io</a>
                 </div>
             </div>
         </div>
@@ -512,6 +623,7 @@
             </div>
             <div class="version-indicator">
                 <span>alpha-version 1.0</span>
+                <a href="https://greenyeasnapshot.github.io" target="_blank" class="snapshot-link" id="snapshot-link-game">Snapshot: greenyeasnapshot.github.io</a>
             </div>
         </div>
     </div>
@@ -546,6 +658,114 @@
                 emptySlot: "Empty Slot",
                 player: "Player",
                 days: "days",
+                snapshotLink: "Snapshot: greenyeasnapshot.github.io",
+                events: [
+                    {
+                        title: "Unexpected Opportunity",
+                        description: "A friend offers you a chance to work on an exciting project together. It will require time and energy but could bring rewards.",
+                        choices: [
+                            {
+                                text: "Accept the project",
+                                effects: {energy: -20, money: +30, happiness: +10},
+                                message: "You accepted the project. It's challenging but rewarding!"
+                            },
+                            {
+                                text: "Politely decline",
+                                effects: {happiness: -5, energy: +5},
+                                message: "You declined the offer to focus on other things."
+                            },
+                            {
+                                text: "Ask for time to think",
+                                effects: {happiness: -2},
+                                message: "You asked for time to consider the offer."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Health Emergency",
+                        description: "You're not feeling well. You could ignore it or seek medical attention.",
+                        choices: [
+                            {
+                                text: "Visit a doctor",
+                                effects: {health: +20, money: -15},
+                                message: "You visited a doctor and got proper treatment."
+                            },
+                            {
+                                text: "Rest at home",
+                                effects: {health: +10, energy: -15},
+                                message: "You decided to rest at home to recover."
+                            },
+                            {
+                                text: "Ignore it and keep working",
+                                effects: {health: -25, money: +10},
+                                message: "You ignored your health issues and kept working."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Financial Windfall",
+                        description: "You received an unexpected bonus at work. How will you use it?",
+                        choices: [
+                            {
+                                text: "Invest in self-improvement",
+                                effects: {money: -25, happiness: +15, energy: +10},
+                                message: "You invested in a course to improve your skills."
+                            },
+                            {
+                                text: "Treat yourself",
+                                effects: {money: -20, happiness: +25},
+                                message: "You bought something nice for yourself."
+                            },
+                            {
+                                text: "Save the money",
+                                effects: {money: +30, happiness: +5},
+                                message: "You wisely saved the bonus money."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Social Invitation",
+                        description: "Friends invite you to a party, but you have important work tomorrow.",
+                        choices: [
+                            {
+                                text: "Go to the party",
+                                effects: {happiness: +25, energy: -30, health: -5},
+                                message: "You had a great time at the party!"
+                            },
+                            {
+                                text: "Stay home and rest",
+                                effects: {energy: +20, happiness: -10},
+                                message: "You decided to stay home and prepare for work."
+                            },
+                            {
+                                text: "Go for a short time",
+                                effects: {happiness: +10, energy: -15},
+                                message: "You made a brief appearance at the party."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Career Crossroads",
+                        description: "You're offered a promotion that requires more hours but pays significantly more.",
+                        choices: [
+                            {
+                                text: "Accept the promotion",
+                                effects: {money: +40, energy: -25, happiness: -10},
+                                message: "You accepted the promotion and the new responsibilities."
+                            },
+                            {
+                                text: "Decline for work-life balance",
+                                effects: {happiness: +15, energy: +10},
+                                message: "You prioritized your work-life balance."
+                            },
+                            {
+                                text: "Negotiate better terms",
+                                effects: {money: +20, energy: -15, happiness: +5},
+                                message: "You negotiated a compromise that works for you."
+                            }
+                        ]
+                    }
+                ],
                 actions: [
                     {
                         title: "Work",
@@ -612,6 +832,114 @@
                 emptySlot: "Пустой слот",
                 player: "Игрок",
                 days: "дней",
+                snapshotLink: "СнапШот: greenyeasnapshot.github.io",
+                events: [
+                    {
+                        title: "Неожиданная возможность",
+                        description: "Друг предлагает поработать вместе над интересным проектом. Это потребует времени и энергии, но может принести награды.",
+                        choices: [
+                            {
+                                text: "Принять проект",
+                                effects: {energy: -20, money: +30, happiness: +10},
+                                message: "Вы приняли проект. Это сложно, но вознаграждает!"
+                            },
+                            {
+                                text: "Вежливо отказаться",
+                                effects: {happiness: -5, energy: +5},
+                                message: "Вы отказались от предложения, чтобы сосредоточиться на других делах."
+                            },
+                            {
+                                text: "Попросить время на раздумья",
+                                effects: {happiness: -2},
+                                message: "Вы попросили время, чтобы обдумать предложение."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Проблемы со здоровьем",
+                        description: "Вы плохо себя чувствуете. Можете проигнорировать или обратиться за медицинской помощью.",
+                        choices: [
+                            {
+                                text: "Посетить врача",
+                                effects: {health: +20, money: -15},
+                                message: "Вы посетили врача и получили правильное лечение."
+                            },
+                            {
+                                text: "Отдохнуть дома",
+                                effects: {health: +10, energy: -15},
+                                message: "Вы решили отдохнуть дома, чтобы восстановиться."
+                            },
+                            {
+                                text: "Игнорировать и продолжать работать",
+                                effects: {health: -25, money: +10},
+                                message: "Вы проигнорировали проблемы со здоровьем и продолжили работать."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Неожиданный доход",
+                        description: "Вы получили неожиданную премию на работе. Как вы ее используете?",
+                        choices: [
+                            {
+                                text: "Инвестировать в саморазвитие",
+                                effects: {money: -25, happiness: +15, energy: +10},
+                                message: "Вы вложились в курс для улучшения своих навыков."
+                            },
+                            {
+                                text: "Побаловать себя",
+                                effects: {money: -20, happiness: +25},
+                                message: "Вы купили себе что-то приятное."
+                            },
+                            {
+                                text: "Сохранить деньги",
+                                effects: {money: +30, happiness: +5},
+                                message: "Вы мудро сохранили премиальные деньги."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Социальное приглашение",
+                        description: "Друзья приглашают вас на вечеринку, но завтра у вас важная работа.",
+                        choices: [
+                            {
+                                text: "Пойти на вечеринку",
+                                effects: {happiness: +25, energy: -30, health: -5},
+                                message: "Вы прекрасно провели время на вечеринке!"
+                            },
+                            {
+                                text: "Остаться дома и отдохнуть",
+                                effects: {energy: +20, happiness: -10},
+                                message: "Вы решили остаться дома и подготовиться к работе."
+                            },
+                            {
+                                text: "Сходить ненадолго",
+                                effects: {happiness: +10, energy: -15},
+                                message: "Вы ненадолго заглянули на вечеринку."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Карьерный перекресток",
+                        description: "Вам предлагают повышение, которое требует больше часов, но платит значительно больше.",
+                        choices: [
+                            {
+                                text: "Принять повышение",
+                                effects: {money: +40, energy: -25, happiness: -10},
+                                message: "Вы приняли повышение и новые обязанности."
+                            },
+                            {
+                                text: "Отказаться ради баланса работы и жизни",
+                                effects: {happiness: +15, energy: +10},
+                                message: "Вы поставили баланс работы и жизни на первое место."
+                            },
+                            {
+                                text: "Обсудить лучшие условия",
+                                effects: {money: +20, energy: -15, happiness: +5},
+                                message: "Вы договорились о компромиссе, который вам подходит."
+                            }
+                        ]
+                    }
+                ],
                 actions: [
                     {
                         title: "Работа",
@@ -653,16 +981,19 @@
             }
         };
 
-        // Key for localStorage
+        // Keys for localStorage
         const SAVE_KEY = 'life_simulator_saves';
+        const LANGUAGE_KEY = 'life_simulator_language';
         
-        // Current language
-        let currentLang = 'en';
+        // Current language - load from localStorage or default to English
+        let currentLang = localStorage.getItem(LANGUAGE_KEY) || 'en';
         
         // Game variables
         let playerName = "Alex";
         let day = 1;
         let currentSaveSlot = null;
+        let actionCounter = 0;
+        let eventTriggerCounter = 0;
         
         // Character stats
         let stats = {
@@ -714,8 +1045,20 @@
         const saveIndicator = document.getElementById('save-indicator');
         const saveMessage = document.getElementById('save-message');
         
+        const eventOverlay = document.getElementById('event-overlay');
+        const eventTitle = document.getElementById('event-title');
+        const eventDescription = document.getElementById('event-description');
+        const eventChoices = document.getElementById('event-choices');
+        
+        const snapshotLinkCreation = document.getElementById('snapshot-link');
+        const snapshotLinkLoad = document.getElementById('snapshot-link-load');
+        const snapshotLinkGame = document.getElementById('snapshot-link-game');
+        
         // Initialize game
         function initGame() {
+            // Load saved language first
+            loadLanguage();
+            
             // Set up language button handlers
             languageButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -723,8 +1066,8 @@
                     languageButtons.forEach(b => b.classList.remove('active'));
                     // Add active class to current button
                     this.classList.add('active');
-                    // Set language
-                    setLanguage(this.dataset.lang);
+                    // Set and save language
+                    setLanguage(this.dataset.lang, true);
                 });
             });
             
@@ -736,9 +1079,6 @@
             menuButton.addEventListener('click', showMainMenu);
             newGameButton.addEventListener('click', confirmNewGame);
             
-            // Load English by default
-            setLanguage('en');
-            
             // Generate random name for example
             const sampleNames = currentLang === 'en' 
                 ? ['Alex', 'Sam', 'Jordan', 'Taylor', 'Morgan'] 
@@ -748,6 +1088,33 @@
             
             // Check for autosave
             checkForAutoSave();
+        }
+        
+        // Load language from localStorage
+        function loadLanguage() {
+            const savedLang = localStorage.getItem(LANGUAGE_KEY);
+            if (savedLang) {
+                currentLang = savedLang;
+                
+                // Update language buttons
+                languageButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === savedLang) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Set initial language
+                setLanguage(savedLang);
+            } else {
+                // Default to English
+                setLanguage('en');
+            }
+        }
+        
+        // Save language to localStorage
+        function saveLanguage(lang) {
+            localStorage.setItem(LANGUAGE_KEY, lang);
         }
         
         // Check for autosave
@@ -763,9 +1130,14 @@
         }
         
         // Set language
-        function setLanguage(lang) {
+        function setLanguage(lang, saveToStorage = false) {
             currentLang = lang;
             const t = translations[lang];
+            
+            // Save language if requested
+            if (saveToStorage) {
+                saveLanguage(lang);
+            }
             
             // Update creation screen texts
             creationTitle.textContent = t.creationTitle;
@@ -791,6 +1163,11 @@
             saveGameButton.textContent = t.saveGame;
             menuButton.textContent = t.mainMenu;
             newGameButton.textContent = t.newGame;
+            
+            // Update snapshot links
+            snapshotLinkCreation.textContent = t.snapshotLink;
+            snapshotLinkLoad.textContent = t.snapshotLink;
+            snapshotLinkGame.textContent = t.snapshotLink;
             
             // If game screen is active, update actions
             if (gameScreen.classList.contains('active-screen')) {
@@ -827,6 +1204,10 @@
             // Clear and update log
             gameLogContainer.innerHTML = '';
             addLogMessage(translations[currentLang].welcomeMessage);
+            
+            // Reset counters
+            actionCounter = 0;
+            eventTriggerCounter = 0;
             
             // Reset current save slot
             currentSaveSlot = null;
@@ -974,7 +1355,9 @@
                 stats: {...stats},
                 gameLog: [...gameLog],
                 timestamp: new Date().getTime(),
-                language: currentLang
+                language: currentLang,
+                actionCounter: actionCounter,
+                eventTriggerCounter: eventTriggerCounter
             };
             
             const saves = getSaves();
@@ -994,7 +1377,9 @@
                 stats: {...stats},
                 gameLog: [...gameLog],
                 timestamp: new Date().getTime(),
-                language: currentLang
+                language: currentLang,
+                actionCounter: actionCounter,
+                eventTriggerCounter: eventTriggerCounter
             };
             
             const saves = getSaves();
@@ -1019,10 +1404,12 @@
             day = saveData.day;
             stats = {...saveData.stats};
             gameLog = [...saveData.gameLog];
+            actionCounter = saveData.actionCounter || 0;
+            eventTriggerCounter = saveData.eventTriggerCounter || 0;
             
-            // Set save language
+            // Set save language if different from current
             if (saveData.language && saveData.language !== currentLang) {
-                setLanguage(saveData.language);
+                setLanguage(saveData.language, true);
                 // Update active language button
                 languageButtons.forEach(btn => {
                     btn.classList.remove('active');
@@ -1100,6 +1487,8 @@
         
         // Perform action
         function performAction(actionIndex) {
+            actionCounter++;
+            
             const actions = translations[currentLang].actions;
             const action = actions[actionIndex];
             
@@ -1157,12 +1546,19 @@
             // Ensure stats stay within bounds
             clampStats();
             
+            // Check for random event (30% chance every 2 actions)
+            if (actionCounter > 0 && actionCounter % 2 === 0 && Math.random() < 0.3) {
+                setTimeout(() => {
+                    triggerRandomEvent();
+                }, 300);
+            }
+            
             // Increase day after every third action
-            if (gameLog.length % 3 === 0) {
+            if (actionCounter % 3 === 0) {
                 day++;
                 dayCounter.textContent = `${translations[currentLang].day}: ${day}`;
                 
-                // Slightly decrease stats each day (simulating natural needs)
+                // Each day slightly decrease stats (simulating natural needs)
                 stats.energy -= 5;
                 stats.happiness -= 3;
                 addLogMessage(currentLang === 'en' 
@@ -1175,6 +1571,79 @@
             
             // Autosave after each action
             autoSaveGame();
+            
+            // Check game over conditions
+            checkGameOver();
+        }
+        
+        // Trigger random event
+        function triggerRandomEvent() {
+            const events = translations[currentLang].events;
+            const randomEvent = events[Math.floor(Math.random() * events.length)];
+            eventTriggerCounter++;
+            
+            // Show event overlay
+            eventTitle.textContent = randomEvent.title;
+            eventDescription.textContent = randomEvent.description;
+            
+            // Clear previous choices
+            eventChoices.innerHTML = '';
+            
+            // Add new choices
+            randomEvent.choices.forEach((choice, index) => {
+                const choiceElement = document.createElement('div');
+                choiceElement.className = 'event-choice';
+                choiceElement.dataset.index = index;
+                
+                // Create effects text
+                let effectsText = '';
+                if (choice.effects.health) {
+                    effectsText += choice.effects.health > 0 ? `+${choice.effects.health} ${translations[currentLang].health} ` : `${choice.effects.health} ${translations[currentLang].health} `;
+                }
+                if (choice.effects.energy) {
+                    effectsText += choice.effects.energy > 0 ? `+${choice.effects.energy} ${translations[currentLang].energy} ` : `${choice.effects.energy} ${translations[currentLang].energy} `;
+                }
+                if (choice.effects.happiness) {
+                    effectsText += choice.effects.happiness > 0 ? `+${choice.effects.happiness} ${translations[currentLang].happiness} ` : `${choice.effects.happiness} ${translations[currentLang].happiness} `;
+                }
+                if (choice.effects.money) {
+                    effectsText += choice.effects.money > 0 ? `+${choice.effects.money} ${translations[currentLang].money} ` : `${choice.effects.money} ${translations[currentLang].money} `;
+                }
+                
+                choiceElement.innerHTML = `
+                    <div>${choice.text}</div>
+                    <div class="event-choice-effects">${effectsText.trim()}</div>
+                `;
+                
+                choiceElement.addEventListener('click', () => handleEventChoice(randomEvent, index));
+                eventChoices.appendChild(choiceElement);
+            });
+            
+            // Show the event overlay
+            eventOverlay.style.display = 'flex';
+        }
+        
+        // Handle event choice
+        function handleEventChoice(event, choiceIndex) {
+            const choice = event.choices[choiceIndex];
+            
+            // Apply effects
+            if (choice.effects.health) stats.health += choice.effects.health;
+            if (choice.effects.energy) stats.energy += choice.effects.energy;
+            if (choice.effects.happiness) stats.happiness += choice.effects.happiness;
+            if (choice.effects.money) stats.money += choice.effects.money;
+            
+            // Ensure stats stay within bounds
+            clampStats();
+            
+            // Add log message
+            addLogMessage(choice.message);
+            
+            // Update stats display
+            updateStatsDisplay();
+            
+            // Hide event overlay
+            eventOverlay.style.display = 'none';
             
             // Check game over conditions
             checkGameOver();
@@ -1249,13 +1718,12 @@
                 
                 addLogMessage(message);
                 
-                // Offer to restart after 3 seconds
+                // Show game over message with only OK button
                 setTimeout(() => {
-                    if (confirm(currentLang === 'en' 
-                        ? `Game over! You survived ${day} days. Start again?` 
-                        : `Игра окончена! Вы прожили ${day} дней. Начать заново?`)) {
-                        showScreen('creation');
-                    }
+                    alert(currentLang === 'en' 
+                        ? `Game over! You survived ${day} days.` 
+                        : `Игра окончена! Вы прожили ${day} дней.`);
+                    showScreen('creation');
                 }, 500);
             }
             
@@ -1266,11 +1734,10 @@
                     : `Поздравляем! Вы успешно прожили 30 дней и завершили симуляцию!`);
                 
                 setTimeout(() => {
-                    if (confirm(currentLang === 'en' 
-                        ? `Congratulations! You completed the simulation. Start again?` 
-                        : `Поздравляем! Вы завершили симуляцию. Начать заново?`)) {
-                        showScreen('creation');
-                    }
+                    alert(currentLang === 'en' 
+                        ? `Congratulations! You completed the simulation!` 
+                        : `Поздравляем! Вы завершили симуляцию!`);
+                    showScreen('creation');
                 }, 500);
             }
         }
